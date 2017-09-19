@@ -1,0 +1,53 @@
+{
+    "name": "kslimani/laravel-geo",
+    "description": "Laravel Geo.",
+    "keywords": ["country", "currency", "geo", "laravel", "locale"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.6.4",
+        "florianv/laravel-swap": "^1.1",
+        "illuminate/config": "~5.4",
+        "illuminate/console": "~5.4",
+        "illuminate/container": "~5.4",
+        "illuminate/contracts": "~5.4",
+        "illuminate/support": "~5.4",
+        "maxmind-db/reader": "^1.1",
+        "moneyphp/money": "^3.0",
+        "php-http/guzzle6-adapter": "^1.1",
+        "php-http/message": "^1.6",
+        "umpirsky/country-list": "^2.0",
+        "umpirsky/currency-list": "^1.0",
+        "umpirsky/language-list": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sk\\Geo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/umpirsky/language-list"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sk\\Geo\\GeoServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
