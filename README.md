@@ -27,3 +27,9 @@ Publish the configuration file :
 ```bash
 php artisan vendor:publish --provider="Sk\Geo\GeoServiceProvider" --tag="config"
 ```
+
+Optionally, publish [Swap service provider configuration](https://github.com/florianv/laravel-swap/blob/master/doc/readme.md#configuration) file :
+
+```bash
+php artisan vendor:publish --provider="Swap\Laravel\SwapServiceProvider"
+```
