@@ -44,6 +44,9 @@ class GeoServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Register Swap service provider
+        $this->app->register('Swap\Laravel\SwapServiceProvider');
+
         $this->app->singleton('geo.locale', function ($app) {
             return new Locale($app->make('config'));
         });
