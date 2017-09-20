@@ -49,6 +49,7 @@ class GeoInfo extends Command
      */
     public function handle()
     {
+        $ip = $this->argument('ip');
         $countryCode = $this->location->ipCountry($ip);
         $languageCode = $this->locale->countryLanguage($countryCode);
         $currencyCode = $this->locale->countryCurrency($countryCode);
