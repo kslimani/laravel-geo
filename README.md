@@ -33,3 +33,47 @@ Optionally, publish [Swap service provider configuration](https://github.com/flo
 ```bash
 php artisan vendor:publish --provider="Swap\Laravel\SwapServiceProvider"
 ```
+
+## Quick usage
+
+```php
+$location =  app('geo.location');
+$locale = app('geo.locale');
+$money = app('geo.money');
+
+// Get country code from ip address (US)
+$countryCode = app('geo.location')->ipCountry('8.8.8.8');
+
+// Get country name (United States)
+$countryName = $locale->country($countryCode);
+
+// Get country language code (en)
+$languageCode = $locale->countryLanguage($countryCode);
+
+// Get country language name (English)
+$languageName = $locale->language($languageCode);
+
+// Get country currency code (USD)
+$currencyCode = $locale->countryCurrency($countryCode);
+
+// Get country currency name (US Dollar)
+$currencyName = $locale->currency($currencyCode);
+
+// Make money amount
+$fiveDollars = $money->make('500', $currencyCode);
+
+// Get amount converted to Euro
+$euroAmount = $money->convert($fiveDollars, 'EUR');
+
+// Get formatted amount
+$formattedAmount = $money->format($euroAmount);
+
+// Get all countries
+$countries = $locale->countries();
+
+// Get all languages
+$languages = $locale->languages();
+
+// Get all currencies
+$currencies = $locale->currencies();
+```
