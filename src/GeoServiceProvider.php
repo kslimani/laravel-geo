@@ -7,6 +7,7 @@ use Sk\Geo\Location\MaxmindLocation;
 use Sk\Geo\Money;
 use Illuminate\Support\ServiceProvider;
 use Money\Exchange\SwapExchange;
+use Swap\Laravel\SwapServiceProvider;
 
 class GeoServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,7 @@ class GeoServiceProvider extends ServiceProvider
     public function register()
     {
         // Register Swap service provider
-        $this->app->register('Swap\Laravel\SwapServiceProvider');
+        $this->app->register(SwapServiceProvider::class);
 
         $this->app->singleton('geo.locale', function ($app) {
             return new Locale($app->make('config'));
