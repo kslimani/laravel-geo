@@ -3,7 +3,7 @@
 namespace Sk\Geo\Console;
 
 use Sk\Geo\Locale;
-use Sk\Geo\Location\Location;
+use Sk\Geo\Location\MaxmindLocation as Location;
 use Illuminate\Console\Command;
 
 class GeoInfo extends Command
