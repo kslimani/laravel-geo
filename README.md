@@ -42,7 +42,7 @@ $locale = app('geo.locale');
 $money = app('geo.money');
 
 // Get country code from ip address (US)
-$countryCode = app('geo.location')->ipCountry('8.8.8.8');
+$countryCode = $location->ipCountry('8.8.8.8');
 
 // Get country name (United States)
 $countryName = $locale->country($countryCode);
