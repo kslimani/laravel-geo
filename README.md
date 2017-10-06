@@ -13,7 +13,13 @@ It uses the following dependencies :
 
 ## Installation
 
-Adds the service provider in `config/app.php` :
+use Composer to add the package to your project's dependencies :
+
+```bash
+composer require kslimani/laravel-geo
+```
+
+Then, adds the service provider in `config/app.php` _(not required for Laravel 5.5 or higher)_ :
 
 ```php
 'providers' => [
