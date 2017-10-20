@@ -2,6 +2,7 @@
 
 namespace Sk\Geo;
 
+use Sk\Geo\Geo;
 use Sk\Geo\Locale;
 use Sk\Geo\Location\MaxmindLocation;
 use Sk\Geo\Money;
@@ -66,6 +67,14 @@ class GeoServiceProvider extends ServiceProvider
         $this->app->singleton('geo.location', function ($app) {
             return new MaxmindLocation($app->make('config'));
         });
+
+        $this->app->singleton('geo', function ($app) {
+            return new Geo(
+                $app->make('geo.locale'),
+                $app->make('geo.location'),
+                $app->make('geo.money')
+            );
+        });
     }
 
     /**
@@ -80,6 +89,7 @@ class GeoServiceProvider extends ServiceProvider
             'geo.money.exchange',
             'geo.money',
             'geo.location',
+            'geo',
         ];
     }
 }
