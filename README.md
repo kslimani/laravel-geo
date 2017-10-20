@@ -28,6 +28,15 @@ Then, adds the service provider in `config/app.php` _(not required for Laravel 5
 ];
 ```
 
+Optionally, adds the Geo facade in `config/app.php` :
+
+```php
+'aliases' => [
+    // ...
+    'Geo' => Sk\Geo\Facades\Geo::class,
+];
+```
+
 Publish the configuration file :
 
 ```bash
@@ -82,4 +91,8 @@ $languages = $locale->languages();
 
 // Get all currencies
 $currencies = $locale->currencies();
+
+
+// Or using Geo facade
+$code = Geo::location()->ipCountry('8.8.4.4');
 ```
