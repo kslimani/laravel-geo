@@ -36,7 +36,10 @@
         "laravel": {
             "providers": [
                 "Sk\\Geo\\GeoServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Geo": "Sk\\Geo\\Facades\\Geo"
+            }
         }
     },
     "config": {
