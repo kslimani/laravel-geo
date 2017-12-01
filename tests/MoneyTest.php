@@ -4,6 +4,7 @@ namespace Tests;
 
 use Tests\CreatesConfig;
 use Money\Exchange\SwapExchange;
+use Money\Exchange\FixedExchange;
 use Sk\Geo\Money;
 use Swap\Builder;
 
@@ -25,6 +26,49 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             \Money\Exchange::class,
             $this->money->exchange()
+        );
+    }
+
+    public function test_it_can_set_exchange()
+    {
+        $custom = new FixedExchange([]);
+
+        $this->assertNotInstanceOf(
+            \Money\Exchange\FixedExchange::class,
+            $this->money->exchange()
+        );
+
+        $this->money->exchange($custom);
+
+        $this->assertInstanceOf(
+            \Money\Exchange\FixedExchange::class,
+            $this->money->exchange()
+        );
+    }
+
+    public function test_it_can_replace_exchange_with_fixed_exchange()
+    {
+        $this->assertNotInstanceOf(
+            \Money\Exchange\FixedExchange::class,
+            $this->money->exchange()
+        );
+
+        $this->money->fixedExchange([
+            'EUR' => [
+                'USD' => 1.25
+            ]
+        ]);
+
+        $this->assertInstanceOf(
+            \Money\Exchange\FixedExchange::class,
+            $this->money->exchange()
+        );
+
+        $amount = $this->money->make(500, 'EUR');
+
+        $this->assertEquals(
+            625,
+            $this->money->convert($amount, 'USD')->getAmount()
         );
     }
 
