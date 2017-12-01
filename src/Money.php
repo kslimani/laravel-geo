@@ -174,7 +174,7 @@ class Money
     }
 
     /**
-     * Parse a money amount for currency.
+     * Parse a decimal money amount for currency.
      *
      * @param  string  $amount
      * @param  string  $currency
@@ -185,7 +185,7 @@ class Money
     {
         try {
             return (new \Money\Parser\DecimalMoneyParser($this->currencies()))
-                ->parse($amount, $currency);
+                ->parse($amount, $this->currency($currency));
         } catch (\Exception $e) {
             throw new MoneyException('Money parse', $e);
         }
