@@ -7,6 +7,7 @@ use Money\Converter;
 use Money\Currency;
 use Money\Exchange;
 use Money\Currencies\ISOCurrencies;
+use Money\Exchange\FixedExchange;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money as MoneyValue;
@@ -48,12 +49,30 @@ class Money
     }
 
     /**
-     * Get exchange instance.
+     * Get or set exchange instance.
      *
+     * @param  \Money\Exchange  $exchange
      * @return \Money\Exchange
      */
-    public function exchange()
+    public function exchange(Exchange $exchange = null)
     {
+        if ($exchange) {
+            $this->exchange = $exchange;
+        }
+
+        return $this->exchange;
+    }
+
+    /**
+     * Replace Exchange instance by FixedExchange.
+     *
+     * @param  array  $list
+     * @return \Money\Exchange
+     */
+    public function fixedExchange(array $list)
+    {
+        $this->exchange = new FixedExchange($list);
+
         return $this->exchange;
     }
 
