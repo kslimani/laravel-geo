@@ -91,7 +91,8 @@ class Money
         try {
             return $this->converter->convert(
                 $money,
-                $this->currency($currency)
+                $this->currency($currency),
+                $roundingMode
             );
         } catch (\Exception $e) {
             throw new MoneyException('Money convert', $e);
