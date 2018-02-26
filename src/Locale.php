@@ -328,6 +328,14 @@ class Locale
     {
         if (! $this->countries) {
             $this->countries = $this->include('country');
+
+            // Filters exceptionally reserved codes
+            // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Exceptional_reservations
+            unset(
+                $this->countries['EZ'], // Eurozone
+                $this->countries['UN']  // United Nations
+            );
+
             asort($this->countries);
         }
 
