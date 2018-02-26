@@ -19,15 +19,6 @@ use Composer to add the package to your project's dependencies :
 composer require kslimani/laravel-geo
 ```
 
-Then, adds the service provider in `config/app.php` _(not required for Laravel 5.5 or higher)_ :
-
-```php
-'providers' => [
-    // ...
-    Sk\Geo\GeoServiceProvider::class,
-];
-```
-
 Optionally, adds the Geo facade in `config/app.php` :
 
 ```php
@@ -52,47 +43,46 @@ php artisan vendor:publish --provider="Swap\Laravel\SwapServiceProvider"
 ## Quick usage
 
 ```php
+use use Sk\Geo\Facades\Geo;
+
+// Get country code from ip address (US)
+$countryCode = Geo::location()->ipCountry('8.8.8.8');
+
+// Get country name (United States)
+$countryName = Geo::locale()->country($countryCode);
+
+// Get country language code (en)
+$languageCode = Geo::locale()->countryLanguage($countryCode);
+
+// Get country language name (English)
+$languageName = Geo::locale()->language($languageCode);
+
+// Get country currency code (USD)
+$currencyCode = Geo::locale()->countryCurrency($countryCode);
+
+// Get country currency name (US Dollar)
+$currencyName = Geo::locale()->currency($currencyCode);
+
+// Make money amount
+$fiveDollars = Geo::money()->make('500', $currencyCode);
+
+// Get amount converted to Euro
+$euroAmount = Geo::money()->convert($fiveDollars, 'EUR');
+
+// Get formatted amount
+$formattedAmount = Geo::money()->format($euroAmount);
+
+// Get all countries
+$countries = Geo::locale()->countries();
+
+// Get all languages
+$languages = Geo::locale()->languages();
+
+// Get all currencies
+$currencies = Geo::locale()->currencies();
+
+// Get instances
 $location =  app('geo.location');
 $locale = app('geo.locale');
 $money = app('geo.money');
-
-// Get country code from ip address (US)
-$countryCode = $location->ipCountry('8.8.8.8');
-
-// Get country name (United States)
-$countryName = $locale->country($countryCode);
-
-// Get country language code (en)
-$languageCode = $locale->countryLanguage($countryCode);
-
-// Get country language name (English)
-$languageName = $locale->language($languageCode);
-
-// Get country currency code (USD)
-$currencyCode = $locale->countryCurrency($countryCode);
-
-// Get country currency name (US Dollar)
-$currencyName = $locale->currency($currencyCode);
-
-// Make money amount
-$fiveDollars = $money->make('500', $currencyCode);
-
-// Get amount converted to Euro
-$euroAmount = $money->convert($fiveDollars, 'EUR');
-
-// Get formatted amount
-$formattedAmount = $money->format($euroAmount);
-
-// Get all countries
-$countries = $locale->countries();
-
-// Get all languages
-$languages = $locale->languages();
-
-// Get all currencies
-$currencies = $locale->currencies();
-
-
-// Or using Geo facade
-$code = Geo::location()->ipCountry('8.8.4.4');
 ```
