@@ -4,7 +4,7 @@
     "keywords": ["country", "currency", "geo", "laravel", "locale"],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.0.0",
         "florianv/laravel-swap": "^1.1",
         "illuminate/config": "~5.5",
         "illuminate/console": "~5.5",
