@@ -28,6 +28,16 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function test_it_filters_reserved_country_codes()
+    {
+        // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Exceptional_reservations
+        $reserved = ['CP', 'EU', 'EZ', 'FX', 'SU', 'UK', 'UN'];
+
+        foreach ($reserved as $code) {
+            $this->assertNull($this->locale->country($code));
+        }
+    }
+
     public function test_it_load_languages()
     {
         $languages = $this->locale->languages();
