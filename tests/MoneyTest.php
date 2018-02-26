@@ -2,13 +2,14 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Tests\CreatesConfig;
 use Money\Exchange\SwapExchange;
 use Money\Exchange\FixedExchange;
 use Sk\Geo\Money;
 use Swap\Builder;
 
-class MoneyTest extends \PHPUnit_Framework_TestCase
+class MoneyTest extends TestCase
 {
     use CreatesConfig;
 

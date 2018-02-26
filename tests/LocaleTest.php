@@ -2,10 +2,11 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Tests\CreatesConfig;
 use Sk\Geo\Locale;
 
-class LocaleTest extends \PHPUnit_Framework_TestCase
+class LocaleTest extends TestCase
 {
     use CreatesConfig;
 

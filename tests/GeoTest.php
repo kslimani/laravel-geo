@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Tests\CreatesConfig;
 use Money\Exchange\SwapExchange;
 use Sk\Geo\Geo;
@@ -10,7 +11,7 @@ use Sk\Geo\Location\MaxmindLocation;
 use Sk\Geo\Money;
 use Swap\Builder;
 
-class GeoTest extends \PHPUnit_Framework_TestCase
+class GeoTest extends TestCase
 {
     use CreatesConfig;
 

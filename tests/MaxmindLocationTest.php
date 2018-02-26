@@ -2,10 +2,11 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Tests\CreatesConfig;
 use Sk\Geo\Location\MaxmindLocation;
 
-class MaxmindLocationTest extends \PHPUnit_Framework_TestCase
+class MaxmindLocationTest extends TestCase
 {
     use CreatesConfig;
 
