@@ -43,7 +43,7 @@ php artisan vendor:publish --provider="Swap\Laravel\SwapServiceProvider"
 ## Quick usage
 
 ```php
-use use Sk\Geo\Facades\Geo;
+use Sk\Geo\Facades\Geo;
 
 // Get country code from ip address (US)
 $countryCode = Geo::location()->ipCountry('8.8.8.8');
