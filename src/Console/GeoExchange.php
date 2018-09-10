@@ -29,12 +29,11 @@ class GeoExchange extends Command
     /**
      * Create a new command instance.
      *
-     * @param  \Sk\Geo\Money  $money
      * @return void
      */
-    public function __construct(Money $money)
+    public function __construct()
     {
-        $this->money = $money;
+        $this->money = app('geo.money');
         parent::__construct();
     }
 
