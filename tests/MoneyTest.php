@@ -2,30 +2,27 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
-use Tests\CreatesConfig;
-use Money\Exchange\SwapExchange;
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Exchange;
 use Money\Exchange\FixedExchange;
-use Sk\Geo\Money;
-use Swap\Builder;
+use Money\Money;
+use Sk\Geo\MoneyException;
 
 class MoneyTest extends TestCase
 {
-    use CreatesConfig;
-
     protected $money;
 
     protected function setUp()
     {
-        $swap = (new Builder())->add('fixer')->build();
-        $exchange = new SwapExchange($swap);
-        $this->money = new Money($this->CreateConfig(), $exchange);
+        parent::setUp();
+        $this->money = app('geo.money');
     }
 
     public function test_it_provides_exchange()
     {
         $this->assertInstanceOf(
-            \Money\Exchange::class,
+            Exchange::class,
             $this->money->exchange()
         );
     }
@@ -35,14 +32,14 @@ class MoneyTest extends TestCase
         $custom = new FixedExchange([]);
 
         $this->assertNotInstanceOf(
-            \Money\Exchange\FixedExchange::class,
+            FixedExchange::class,
             $this->money->exchange()
         );
 
         $this->money->exchange($custom);
 
         $this->assertInstanceOf(
-            \Money\Exchange\FixedExchange::class,
+            FixedExchange::class,
             $this->money->exchange()
         );
     }
@@ -50,7 +47,7 @@ class MoneyTest extends TestCase
     public function test_it_can_replace_exchange_with_fixed_exchange()
     {
         $this->assertNotInstanceOf(
-            \Money\Exchange\FixedExchange::class,
+            FixedExchange::class,
             $this->money->exchange()
         );
 
@@ -61,7 +58,7 @@ class MoneyTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            \Money\Exchange\FixedExchange::class,
+            FixedExchange::class,
             $this->money->exchange()
         );
 
@@ -76,7 +73,7 @@ class MoneyTest extends TestCase
     public function test_it_provides_iso_currencies()
     {
         $this->assertInstanceOf(
-            \Money\Currencies\ISOCurrencies::class,
+            ISOCurrencies::class,
             $this->money->currencies()
         );
     }
@@ -86,14 +83,14 @@ class MoneyTest extends TestCase
         $amount = $this->money->make(500, 'EUR');
 
         $this->assertInstanceOf(
-            \Money\Money::class,
+            Money::class,
             $amount
         );
     }
 
     public function test_it_cannot_makes_invalid_money_amount()
     {
-        $this->expectException(\Sk\Geo\MoneyException::class);
+        $this->expectException(MoneyException::class);
         $amount = $this->money->make(2.4, 'XOF');
     }
 
@@ -102,7 +99,7 @@ class MoneyTest extends TestCase
         $currency = $this->money->currency('EUR');
 
         $this->assertInstanceOf(
-            \Money\Currency::class,
+            Currency::class,
             $currency
         );
     }
@@ -112,7 +109,7 @@ class MoneyTest extends TestCase
         $amount = $this->money->parse('12.75', 'EUR');
 
         $this->assertInstanceOf(
-            \Money\Money::class,
+            Money::class,
             $amount
         );
 
@@ -126,7 +123,7 @@ class MoneyTest extends TestCase
         $amount = $this->money->parse('50', 'XOF');
 
         $this->assertInstanceOf(
-            \Money\Money::class,
+            Money::class,
             $amount
         );
 
@@ -139,7 +136,7 @@ class MoneyTest extends TestCase
         $amount = $this->money->parse('50.30', 'XOF');
 
         $this->assertInstanceOf(
-            \Money\Money::class,
+            Money::class,
             $amount
         );
 
@@ -166,7 +163,7 @@ class MoneyTest extends TestCase
         $converted = $this->money->convert($amount, 'RON');
 
         $this->assertInstanceOf(
-            \Money\Money::class,
+            Money::class,
             $converted
         );
 
