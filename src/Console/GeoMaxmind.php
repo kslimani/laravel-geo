@@ -56,6 +56,7 @@ class GeoMaxmind extends Command
             cache(['maxmind_countries' => $maxmindCountries], 3600);
         }
         $misses = [];
+        $lines = [];
         foreach ($maxmindCountries as $countryCode => $country) {
             $countryName = $this->locale->country($countryCode);
             if (! $countryName) {
