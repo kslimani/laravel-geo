@@ -41,9 +41,10 @@ class GeoMaxmind extends Command
      */
     public function handle()
     {
-        if (! $maxmindCountries = cache('maxmind_countries')) {
+        $maxmindCountries = cache('maxmind_countries');
+        if (empty($maxmindCountries)) {
             $lines = explode("\n", file_get_contents(
-                'http://dev.maxmind.com/static/csv/codes/iso3166.csv'
+                'https://dev.maxmind.com/static/csv/codes/iso3166.csv'
             ));
             $maxmindCountries = [];
             foreach ($lines as $line) {
