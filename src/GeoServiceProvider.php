@@ -32,6 +32,7 @@ class GeoServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Console\GeoExchange::class,
                 Console\GeoInfo::class,
                 Console\GeoList::class,
                 Console\GeoMaxmind::class,

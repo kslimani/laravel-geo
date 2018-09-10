@@ -2,20 +2,15 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
-use Tests\CreatesConfig;
-use Sk\Geo\Locale;
-
 class LocaleTest extends TestCase
 {
-    use CreatesConfig;
-
     protected $locale;
 
     protected function setUp()
     {
-        $basePath = realpath(__DIR__.'/../');
-        $this->locale = new Locale($this->CreateConfig(), $basePath);
+        parent::setUp();
+        $this->locale = $this->app->make('geo.locale')
+            ->setBasePath(dirname(__FILE__).'/..');
     }
 
     public function test_it_load_countries()

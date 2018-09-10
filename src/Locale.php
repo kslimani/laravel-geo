@@ -309,6 +309,19 @@ class Locale
     }
 
     /**
+     * Set the base path.
+     *
+     * @param string $basePath
+     * @return this
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
+    /**
      * Get the base path.
      *
      * @param string $path Optionally, a path to append to the base path

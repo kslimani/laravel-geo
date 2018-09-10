@@ -69,8 +69,14 @@ $fiveDollars = Geo::money()->make('500', $currencyCode);
 // Get amount converted to Euro
 $euroAmount = Geo::money()->convert($fiveDollars, 'EUR');
 
-// Get formatted amount
-$formattedAmount = Geo::money()->format($euroAmount);
+// Get formatted amount ("Intl" formatter)
+$intlFormattedAmount = Geo::money()->format($euroAmount);
+
+// Get formatted amount ("Decimal" formatter)
+$decFormattedAmount = Geo::money()->formatDec($euroAmount);
+
+// Parse "Decimal" formatted amount
+$newEuroAmount = Geo::money()->parse($decFormattedAmount, 'EUR');
 
 // Get all countries
 $countries = Geo::locale()->countries();
@@ -81,7 +87,7 @@ $languages = Geo::locale()->languages();
 // Get all currencies
 $currencies = Geo::locale()->currencies();
 
-// Get instances
+// Get instances using app helper
 $location =  app('geo.location');
 $locale = app('geo.locale');
 $money = app('geo.money');

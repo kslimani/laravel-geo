@@ -2,19 +2,14 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
-use Tests\CreatesConfig;
-use Sk\Geo\Location\MaxmindLocation;
-
 class MaxmindLocationTest extends TestCase
 {
-    use CreatesConfig;
-
     protected $location;
 
     protected function setUp()
     {
-        $this->location = new MaxmindLocation($this->CreateConfig());
+        parent::setUp();
+        $this->location = $this->app->make('geo.location');
     }
 
     public function test_it_resolve_ip_country()
