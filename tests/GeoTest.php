@@ -13,7 +13,7 @@ class GeoTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->geo = app('geo');
+        $this->geo = $this->app->make('geo');
     }
 
     public function test_it_access_by_methods()

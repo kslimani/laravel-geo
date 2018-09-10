@@ -9,7 +9,7 @@ class MaxmindLocationTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->location = app('geo.location');
+        $this->location = $this->app->make('geo.location');
     }
 
     public function test_it_resolve_ip_country()

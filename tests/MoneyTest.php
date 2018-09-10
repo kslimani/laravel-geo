@@ -16,7 +16,7 @@ class MoneyTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->money = app('geo.money');
+        $this->money = $this->app->make('geo.money');
     }
 
     public function test_it_provides_exchange()
