@@ -296,6 +296,11 @@ class Locale
     protected $currencies;
 
     /**
+     * @var string
+     */
+    protected $appLocale;
+
+    /**
      * Create a new instance.
      *
      * @param  \Illuminate\Contracts\Config\Repository  $config
@@ -335,12 +340,17 @@ class Locale
     /**
      * Get countries with ISO 3166-1 codes.
      *
+     * @param  string  $locale
      * @return array
      */
-    public function countries()
+    public function countries($locale = null)
     {
-        if (! $this->countries) {
-            $this->countries = $this->include('country');
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->countries || $this->appLocale !== $locale) {
+            $this->countries = $this->include('country', $locale);
 
             // Filters exceptionally reserved codes
             // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Exceptional_reservations
@@ -350,6 +360,7 @@ class Locale
             );
 
             asort($this->countries);
+            $this->appLocale = $locale;
         }
 
         return $this->countries;
@@ -359,12 +370,13 @@ class Locale
      * Get country name.
      *
      * @param  string  $code
+     * @param  string  $locale
      * @return string|null
      */
-    public function country($code)
+    public function country($code, $locale = null)
     {
         if (! $this->countries) {
-            $this->countries();
+            $this->countries($locale);
         }
 
         return isset($this->countries[$code]) ? $this->countries[$code] : null;
@@ -373,14 +385,20 @@ class Locale
     /**
      * Get languages with ISO 639-1 codes.
      *
+     * @param  string  $locale
      * @return array
      */
-    public function languages()
+    public function languages($locale = null)
     {
-        if (! $this->languages) {
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->languages || $this->appLocale !== $locale) {
+            $countries = $this->countries($locale);
+            $languages = $this->include('language', $locale);
+
             // Languages are filtered to match countries
-            $countries = $this->countries();
-            $languages = $this->include('language');
             foreach ($countries as $code => $country) {
                 if (! $locale = $this->countryLocale($code)) {
                     continue;
@@ -391,7 +409,9 @@ class Locale
                 }
                 $this->languages[$language] = $languages[$language];
             }
+
             asort($this->languages);
+            $this->appLocale = $locale;
         }
 
         return $this->languages;
@@ -401,12 +421,13 @@ class Locale
      * Get language name.
      *
      * @param  string  $code
+     * @param  string  $locale
      * @return string|null
      */
-    public function language($code)
+    public function language($code, $locale = null)
     {
         if (! $this->languages) {
-            $this->languages();
+            $this->languages($locale);
         }
 
         return isset($this->languages[$code]) ? $this->languages[$code] : null;
@@ -415,20 +436,25 @@ class Locale
     /**
      * Get currencies with ISO 4217 codes.
      *
+     * @param  string  $locale
      * @return array
      */
-    public function currencies()
+    public function currencies($locale = null)
     {
-        if (! $this->currencies) {
-            // Currencies are filtered to match countries
-            $countries = $this->countries();
-            $currencies = $this->include('currency');
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->currencies || $this->appLocale !== $locale) {
+            $countries = $this->countries($locale);
+            $currencies = $this->include('currency', $locale);
 
             // Add new Belarusian Ruble if not available
             if (! isset($currencies['BYN']) && isset($currencies['BYR'])) {
                 $currencies['BYN'] = $currencies['BYR'];
             }
 
+            // Currencies are filtered to match countries
             foreach ($countries as $code => $country) {
                 if (! $locale = $this->countryLocale($code)) {
                     continue;
@@ -442,7 +468,9 @@ class Locale
 
                 $this->currencies[$currency] = $currencies[$currency];
             }
+
             asort($this->currencies);
+            $this->appLocale = $locale;
         }
 
         return $this->currencies;
@@ -452,12 +480,13 @@ class Locale
      * Get currency name.
      *
      * @param  string  $code
+     * @param  string  $locale
      * @return string|null
      */
-    public function currency($code)
+    public function currency($code, $locale = null)
     {
         if (! $this->currencies) {
-            $this->currencies();
+            $this->currencies($locale);
         }
 
         return isset($this->currencies[$code]) ? $this->currencies[$code] : null;
@@ -490,7 +519,7 @@ class Locale
 
         $language = $this->localeLanguage($locale);
         if (! $this->languages) {
-            $this->languages();
+            $this->languages($this->appLocale);
         }
 
         return isset($this->languages[$language]) ? $language : null;
@@ -512,7 +541,7 @@ class Locale
         }
 
         if (! $this->currencies) {
-            $this->currencies();
+            $this->currencies($this->appLocale);
         }
 
         return isset($this->currencies[$currency]) ? $currency : null;
@@ -537,20 +566,19 @@ class Locale
     }
 
     /**
-     * Include data file.
+     * Include localized data file.
      *
      * @param  string  $name
+     * @param  string  $locale
      * @return array
      * @throws \LogicException
      */
-    protected function include($name)
+    protected function include($name, $locale)
     {
-        $file = $this->file(
-            $name,
-            $this->config->get('app.locale')
-        );
+        $file = $this->file($name, $locale);
 
         if (! file_exists($file)) {
+            // Attempts with application fallback locale
             $file = $this->file(
                 $name,
                 $this->config->get('app.fallback_locale')
