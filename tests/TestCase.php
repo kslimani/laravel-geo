@@ -24,7 +24,8 @@ class TestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $geo = include(dirname(__FILE__)."/../config/geo.php");
+        $basePath = realpath(dirname(__FILE__).'/..');
+        $geo = include($basePath.'/config/geo.php');
         $app['config']->set('geo', $geo);
         $app['config']->set('swap', [
             'services' => [
