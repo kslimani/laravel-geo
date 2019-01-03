@@ -4,6 +4,7 @@ namespace Sk\Geo\Console;
 
 use Sk\Geo\Locale;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class GeoMaxmind extends Command
 {
@@ -41,23 +42,31 @@ class GeoMaxmind extends Command
      */
     public function handle()
     {
-        $maxmindCountries = cache('maxmind_countries');
-        if (empty($maxmindCountries)) {
+        $countries = Cache::remember('geo-maxmind-countries', 60, function () {
             $lines = explode("\n", file_get_contents(
                 'https://dev.maxmind.com/static/csv/codes/iso3166.csv'
             ));
-            $maxmindCountries = [];
+
+            $result = [];
+
             foreach ($lines as $line) {
                 $row = str_getcsv($line);
-                if (count($row) !== 2) continue;
+
+                if (count($row) !== 2) {
+                    continue;
+                }
+
                 list($code, $name) = $row;
-                $maxmindCountries[$code] = $name;
+                $result[$code] = $name;
             }
-            cache(['maxmind_countries' => $maxmindCountries], 3600);
-        }
+
+            return $result;
+        });
+
         $misses = [];
         $lines = [];
-        foreach ($maxmindCountries as $countryCode => $country) {
+
+        foreach ($countries as $countryCode => $country) {
             $countryName = $this->locale->country($countryCode);
             if (! $countryName) {
                 // Country name should be NULL for 'A1', 'A2', 'O1', 'EU' and 'AP'
@@ -72,11 +81,13 @@ class GeoMaxmind extends Command
                 $country,
             ];
         }
+
         $this->table([
             'Country code',
             'Country name',
             'Maxmind country name',
         ], $lines);
+
         $this->warn('Missing country codes are [\''.implode('\', \'', $misses).'\']');
     }
 }
