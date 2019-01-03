@@ -174,4 +174,56 @@ class MoneyTest extends TestCase
 
         $this->assertSame('RON', $converted->getCurrency()->getCode());
     }
+
+    public function test_it_decompose()
+    {
+        $nonBreakable = "\xc2\xa0"; // UTF-8 non-breakable space
+
+        $money = $this->money->make(123456, 'EUR');
+        $decomposed = $this->money->decompose($money);
+
+        $this->assertSame('en', $decomposed['locale']);
+        $this->assertSame(2, $decomposed['subunit']);
+        $this->assertSame('+', $decomposed['sign']);
+        $this->assertSame('1234', $decomposed['unsigned_part']);
+        $this->assertSame('56', $decomposed['decimal_part']);
+        $this->assertSame(',', $decomposed['grouping_separator']);
+        $this->assertSame('.', $decomposed['decimal_separator']);
+        $this->assertSame('€', $decomposed['symbol']);
+
+        $decomposed = $this->money->decompose($money, 'fr');
+
+        $this->assertSame('fr', $decomposed['locale']);
+        $this->assertSame(2, $decomposed['subunit']);
+        $this->assertSame('+', $decomposed['sign']);
+        $this->assertSame('1234', $decomposed['unsigned_part']);
+        $this->assertSame('56', $decomposed['decimal_part']);
+        $this->assertSame($nonBreakable, $decomposed['grouping_separator']);
+        $this->assertSame(',', $decomposed['decimal_separator']);
+        $this->assertSame('€', $decomposed['symbol']);
+
+        $money = $this->money->make(-123456, 'USD');
+        $decomposed = $this->money->decompose($money, 'de');
+
+        $this->assertSame('de', $decomposed['locale']);
+        $this->assertSame(2, $decomposed['subunit']);
+        $this->assertSame('-', $decomposed['sign']);
+        $this->assertSame('1234', $decomposed['unsigned_part']);
+        $this->assertSame('56', $decomposed['decimal_part']);
+        $this->assertSame('.', $decomposed['grouping_separator']);
+        $this->assertSame(',', $decomposed['decimal_separator']);
+        $this->assertSame('$', $decomposed['symbol']);
+
+        $money = $this->money->make(123456, 'JPY');
+        $decomposed = $this->money->decompose($money);
+
+        $this->assertSame('en', $decomposed['locale']);
+        $this->assertSame(0, $decomposed['subunit']);
+        $this->assertSame('+', $decomposed['sign']);
+        $this->assertSame('123456', $decomposed['unsigned_part']);
+        $this->assertSame('', $decomposed['decimal_part']);
+        $this->assertSame(',', $decomposed['grouping_separator']);
+        $this->assertSame('', $decomposed['decimal_separator']);
+        $this->assertSame('¥', $decomposed['symbol']);
+    }
 }
