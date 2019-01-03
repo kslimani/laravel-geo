@@ -375,7 +375,11 @@ class Locale
      */
     public function country($code, $locale = null)
     {
-        if (! $this->countries) {
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->countries || $this->appLocale !== $locale) {
             $this->countries($locale);
         }
 
@@ -400,10 +404,10 @@ class Locale
 
             // Languages are filtered to match countries
             foreach ($countries as $code => $country) {
-                if (! $locale = $this->countryLocale($code)) {
+                if (! $countryLocale = $this->countryLocale($code)) {
                     continue;
                 }
-                $language = $this->localeLanguage($locale);
+                $language = $this->localeLanguage($countryLocale);
                 if (! isset($languages[$language])) {
                     continue;
                 }
@@ -426,7 +430,11 @@ class Locale
      */
     public function language($code, $locale = null)
     {
-        if (! $this->languages) {
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->languages || $this->appLocale !== $locale) {
             $this->languages($locale);
         }
 
@@ -456,10 +464,10 @@ class Locale
 
             // Currencies are filtered to match countries
             foreach ($countries as $code => $country) {
-                if (! $locale = $this->countryLocale($code)) {
+                if (! $countryLocale = $this->countryLocale($code)) {
                     continue;
                 }
-                if (! $currency = $this->localeCurrency($locale)) {
+                if (! $currency = $this->localeCurrency($countryLocale)) {
                     continue;
                 }
                 if (! isset($currencies[$currency])) {
@@ -485,7 +493,11 @@ class Locale
      */
     public function currency($code, $locale = null)
     {
-        if (! $this->currencies) {
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        if (! $this->currencies || $this->appLocale !== $locale) {
             $this->currencies($locale);
         }
 
