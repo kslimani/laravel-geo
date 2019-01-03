@@ -122,7 +122,7 @@ class Money
      * Format money value using "Intl" formatter.
      *
      * @param  \Money\Money  $money
-     * @param  string|null  $locale
+     * @param  string  $locale
      * @return string
      * @throws MoneyException
      */
@@ -207,5 +207,50 @@ class Money
         } catch (\Exception $e) {
             throw new MoneyException('Money make', $e);
         }
+    }
+
+    /**
+     * Decompose a money value.
+     *
+     * @param  \Money\Money  $money
+     * @param  string  $locale
+     * @return array
+     */
+    public function decompose(MoneyValue $money, $locale = null)
+    {
+        if (! $locale) {
+            $locale = $this->config->get('app.locale');
+        }
+
+        $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+        $subUnit = $this->currencies()->subunitFor($money->getCurrency());
+        $parts = explode('.', $this->formatDec($money->absolute()));
+
+        $decomposed = [
+            'locale' => $locale,
+            'subunit' => $subUnit,
+            'sign' => $money->isPositive() ? '+' : '-',
+            'unsigned_part' => $parts[0],
+            'decimal_part' => isset($parts[1]) ? $parts[1] : '',
+            'grouping_separator' => $formatter->getSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL),
+            'decimal_separator' => $subUnit > 0 ? $formatter->getSymbol(NumberFormatter::DECIMAL_SEPARATOR_SYMBOL) : '',
+        ];
+
+        // Symbol workaround : https://github.com/moneyphp/money/issues/330#issuecomment-267295863
+
+        // Prevent any extra spaces, etc. in formatted currency
+        $formatter->setPattern('¤');
+
+        // Prevent significant digits (e.g. cents) in formatted currency
+        $formatter->setAttribute(NumberFormatter::MAX_SIGNIFICANT_DIGITS, 0);
+
+        // Get the formatted price for '0'
+        $formattedPrice = $formatter->formatCurrency(0, $money->getCurrency()->getCode());
+
+        // Strip out the zero digit to get the currency symbol
+        $zero = $formatter->getSymbol(NumberFormatter::ZERO_DIGIT_SYMBOL);
+        $decomposed['symbol'] = str_replace($zero, '', $formattedPrice);
+
+        return $decomposed;
     }
 }
