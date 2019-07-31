@@ -177,7 +177,10 @@ class MoneyTest extends TestCase
 
     public function test_it_decompose()
     {
-        $nonBreakable = "\xc2\xa0"; // UTF-8 non-breakable space
+        $spaces = [
+            "\xc2\xa0",      // UTF-8 non-breakable space
+            "\xe2\x80\xaf",  // UTF-8 non-breakable space - ICU 63.1 : https://bugs.php.net/bug.php?id=77914
+        ];
 
         $money = $this->money->make(123456, 'EUR');
         $decomposed = $this->money->decompose($money);
@@ -198,7 +201,7 @@ class MoneyTest extends TestCase
         $this->assertSame('+', $decomposed['sign']);
         $this->assertSame('1234', $decomposed['unsigned_part']);
         $this->assertSame('56', $decomposed['decimal_part']);
-        $this->assertSame($nonBreakable, $decomposed['grouping_separator']);
+        $this->assertTrue(in_array($decomposed['grouping_separator'], $spaces));
         $this->assertSame(',', $decomposed['decimal_separator']);
         $this->assertSame('€', $decomposed['symbol']);
 
