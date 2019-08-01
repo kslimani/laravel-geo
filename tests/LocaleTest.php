@@ -24,6 +24,17 @@ class LocaleTest extends TestCase
         }
     }
 
+    public function test_it_does_not_contains_pseudo_locales()
+    {
+        $countries = $this->locale->countries();
+
+        $this->assertNotEmpty($countries);
+
+        // Issue introduced in umpirsky/country-list version 2.0.5
+        $this->assertArrayNotHasKey('XA', $countries);
+        $this->assertArrayNotHasKey('XB', $countries);
+    }
+
     public function test_it_filters_reserved_country_codes()
     {
         // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Exceptional_reservations
