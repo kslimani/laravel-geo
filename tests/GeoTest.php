@@ -10,7 +10,7 @@ class GeoTest extends TestCase
 {
     protected $geo;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->geo = $this->app->make('geo');

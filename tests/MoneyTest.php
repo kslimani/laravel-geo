@@ -13,7 +13,7 @@ class MoneyTest extends TestCase
 {
     protected $money;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->money = $this->app->make('geo.money');
