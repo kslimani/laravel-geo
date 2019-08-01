@@ -6,7 +6,7 @@ class LocaleTest extends TestCase
 {
     protected $locale;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->locale = $this->app->make('geo.locale')

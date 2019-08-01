@@ -6,7 +6,7 @@ class MaxmindLocationTest extends TestCase
 {
     protected $location;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->location = $this->app->make('geo.location');
