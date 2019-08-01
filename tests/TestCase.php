@@ -30,7 +30,9 @@ class TestCase extends OrchestraTestCase
         $app['config']->set('swap', [
             'services' => [
                 'array' => [
-                    'EUR/RON' => 4.63,
+                    [
+                        'EUR/RON' => 4.63,
+                    ],
                 ],
             ],
         ]);
