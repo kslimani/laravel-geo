@@ -19,6 +19,12 @@ use Composer to add the package to your project's dependencies :
 composer require kslimani/laravel-geo
 ```
 
+Note: Swap uses [HTTPlug](http://httplug.io/) abstraction which may require additional dependencies. For example using Curl :
+
+```bash
+composer require php-http/curl-client nyholm/psr7 php-http/message
+```
+
 Optionally, adds the Geo facade in `config/app.php` :
 
 ```php
