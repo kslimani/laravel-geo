@@ -350,7 +350,10 @@ class Locale
         }
 
         if (! $this->countries || $this->appLocale !== $locale) {
-            $this->countries = $this->include('country', $locale);
+            $this->countries = GeoList::countries(
+                $locale,
+                $this->config->get('app.fallback_locale')
+            );
 
             // Filters exceptionally reserved codes
             // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Exceptional_reservations
@@ -400,7 +403,10 @@ class Locale
 
         if (! $this->languages || $this->appLocale !== $locale) {
             $countries = $this->countries($locale);
-            $languages = $this->include('language', $locale);
+            $languages = GeoList::languages(
+                $locale,
+                $this->config->get('app.fallback_locale')
+            );
 
             // Languages are filtered to match countries
             foreach ($countries as $code => $country) {
@@ -455,7 +461,10 @@ class Locale
 
         if (! $this->currencies || $this->appLocale !== $locale) {
             $countries = $this->countries($locale);
-            $currencies = $this->include('currency', $locale);
+            $currencies = GeoList::currencies(
+                $locale,
+                $this->config->get('app.fallback_locale')
+            );
 
             // Add new Belarusian Ruble if not available
             if (! isset($currencies['BYN']) && isset($currencies['BYR'])) {
@@ -557,50 +566,6 @@ class Locale
         }
 
         return isset($this->currencies[$currency]) ? $currency : null;
-    }
-
-    /**
-     * Get filename.
-     *
-     * @param  string  $name
-     * @param  string  $locale
-     * @return string
-     */
-    protected function file($name, $locale)
-    {
-        return sprintf(
-            '%s/%s-list/data/%s/%s.php',
-            $this->basePath($this->config->get('geo.locale.base_path')),
-            $name,
-            $locale,
-            $name
-        );
-    }
-
-    /**
-     * Include localized data file.
-     *
-     * @param  string  $name
-     * @param  string  $locale
-     * @return array
-     * @throws \LogicException
-     */
-    protected function include($name, $locale)
-    {
-        $file = $this->file($name, $locale);
-
-        if (! file_exists($file)) {
-            // Attempts with application fallback locale
-            $file = $this->file(
-                $name,
-                $this->config->get('app.fallback_locale')
-            );
-            if (! file_exists($file)) {
-                throw new \LogicException('File not found: '.$file);
-            }
-        }
-
-        return include $file;
     }
 
     /**
