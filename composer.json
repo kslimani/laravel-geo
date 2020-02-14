@@ -6,11 +6,9 @@
     "require": {
         "php": ">=7.2",
         "florianv/laravel-swap": "^2.1",
+        "kslimani/geo-list": "^1.0",
         "maxmind-db/reader": "^1.5",
-        "moneyphp/money": "^3.2",
-        "umpirsky/country-list": "2.0.4",
-        "umpirsky/currency-list": "^1.1",
-        "umpirsky/language-list": "^1.1"
+        "moneyphp/money": "^3.3"
     },
     "require-dev": {
         "nyholm/psr7": "^1.2",
