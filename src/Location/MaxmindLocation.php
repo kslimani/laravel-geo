@@ -48,7 +48,6 @@ class MaxmindLocation implements Location
             $readers = $this->config->get('geo.location.maxmind');
             if (empty($readers[$name])
                 || ! file_exists($readers[$name])) {
-
                 return null;
             }
 

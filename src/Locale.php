@@ -593,7 +593,7 @@ class Locale
 
         // Belarusian Ruble is no longer 'BYR'
         if ($currency === 'BYR') {
-            $currency = 'BYN'; 
+            $currency = 'BYN';
         }
 
         return (! $currency || $currency === 'XXX') ? null : $currency;
