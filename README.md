@@ -1,3 +1,5 @@
+![](https://github.com/kslimani/laravel-geo/workflows/Integration%20tests/badge.svg)
+
 # Laravel Geo
 
 A simple service provider to work with locales, countries and currencies.
