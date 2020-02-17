@@ -6,12 +6,12 @@
     "require": {
         "php": ">=7.2",
         "florianv/laravel-swap": "^2.1",
-        "friendsofphp/php-cs-fixer": "^2.16",
         "kslimani/geo-list": "^1.0",
         "maxmind-db/reader": "^1.5",
         "moneyphp/money": "^3.3"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
         "nyholm/psr7": "^1.2",
         "orchestra/testbench": "^4.0",
         "php-http/curl-client": "^2.0",
