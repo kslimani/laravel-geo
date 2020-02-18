@@ -304,37 +304,11 @@ class Locale
      * Create a new instance.
      *
      * @param  \Illuminate\Contracts\Config\Repository  $config
-     * @param  string  $basePath
      * @return void
      */
-    public function __construct(Repository $config, $basePath = null)
+    public function __construct(Repository $config)
     {
         $this->config = $config;
-        $this->basePath = $basePath ? $basePath : base_path();
-    }
-
-    /**
-     * Set the base path.
-     *
-     * @param string $basePath
-     * @return this
-     */
-    public function setBasePath($basePath)
-    {
-        $this->basePath = $basePath;
-
-        return $this;
-    }
-
-    /**
-     * Get the base path.
-     *
-     * @param string $path Optionally, a path to append to the base path
-     * @return string
-     */
-    public function basePath($path = '')
-    {
-        return $this->basePath.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

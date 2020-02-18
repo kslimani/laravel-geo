@@ -9,8 +9,7 @@ class LocaleTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->locale = $this->app->make('geo.locale')
-            ->setBasePath(dirname(__FILE__).'/..');
+        $this->locale = $this->app->make('geo.locale');
     }
 
     public function test_it_load_countries()
