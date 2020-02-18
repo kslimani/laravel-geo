@@ -1,6 +1,21 @@
 <?php
 
+use Sk\Geo\Location\MaxmindLocation;
+
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Geo Defaults
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the default location class.
+    |
+    */
+
+    'defaults' => [
+        'location' => MaxmindLocation::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -66,7 +66,10 @@ class GeoServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('geo.location', function ($app) {
-            return new MaxmindLocation($app->make('config'));
+            return $app->make(
+                $app->make('config')
+                    ->get('geo.defaults.location', MaxmindLocation::class)
+            );
         });
 
         $this->app->singleton('geo', function ($app) {
