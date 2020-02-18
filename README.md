@@ -34,7 +34,7 @@ Optionally, adds the Geo facade in `config/app.php` :
 ];
 ```
 
-Publish the configuration file :
+Publish the [configuration file](https://github.com/kslimani/laravel-geo/blob/master/config/geo.php) `config/geo.php` :
 
 ```bash
 php artisan vendor:publish --provider="Sk\Geo\GeoServiceProvider" --tag="config"
@@ -84,17 +84,51 @@ $decFormattedAmount = Geo::money()->formatDec($euroAmount);
 // Parse "Decimal" formatted amount
 $newEuroAmount = Geo::money()->parse($decFormattedAmount, 'EUR');
 
-// Get all countries
+// Decompose money amount
+$keyValueArray = Geo::money()->decompose($fiveDollars);
+// [
+//   "locale" => "en"
+//   "subunit" => 2
+//   "sign" => "+"
+//   "unsigned_part" => "5"
+//   "decimal_part" => "00"
+//   "grouping_separator" => ","
+//   "decimal_separator" => "."
+//   "symbol" => "$"
+// ]
+
+// Get all countries (country code -> name associative array)
 $countries = Geo::locale()->countries();
 
-// Get all languages
+// Get all languages (language code -> name associative array)
 $languages = Geo::locale()->languages();
 
-// Get all currencies
+// Get all currencies (currency code -> name associative array)
 $currencies = Geo::locale()->currencies();
+
+// All methods returning a name accept an optional locale (default is application locale)
+Geo::locale()->country('US', 'es');      // 'Estados Unidos'
+Geo::locale()->language('en', 'de')      // 'Englisch'
+Geo::locale()->currency('USD', 'ru')     // 'Доллар США'
+Geo::locale()->countries('zh')           // [ 'BT' => '不丹', 'TL' => '东帝汶', ... ]
+Geo::money()->format($fiveDollars, 'fr') // '5,00 $US'
+Geo::money()->decompose($amount, 'fr');  // [ 'locale' => 'fr', ... ]
 
 // Get instances using app helper
 $location =  app('geo.location');
 $locale = app('geo.locale');
 $money = app('geo.money');
 ```
+
+## Console commands
+
+This package also provides some Artisan console commands :
+
+```
+geo:exchange          Simple currency converter
+geo:info              Display geo data for ip address
+geo:list              Display countries with default language and currency
+geo:maxmind           Display Maxmind DB countries with matched geo country name
+```
+
+Note: `geo:list` and `geo:maxmind` are mainly used for package development.
