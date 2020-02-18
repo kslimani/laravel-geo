@@ -38,6 +38,13 @@
             }
         }
     },
+    "scripts": {
+        "lint": [
+            "vendor/bin/php-cs-fixer fix --diff --diff-format=udiff --using-cache=no --dry-run src",
+            "vendor/bin/php-cs-fixer fix --diff --diff-format=udiff --using-cache=no --dry-run tests"
+        ],
+        "test": "phpunit"
+    },
     "config": {
         "sort-packages": true
     },
