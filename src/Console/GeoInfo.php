@@ -42,6 +42,12 @@ class GeoInfo extends Command
         parent::__construct();
     }
 
+    protected function withIsp()
+    {
+        return method_exists($this->location, 'asn')
+            && method_exists($this->location, 'isp');
+    }
+
     /**
      * Execute the console command.
      *
@@ -69,8 +75,8 @@ class GeoInfo extends Command
             $this->locale->language($languageCode),
             $currencyCode,
             $this->locale->currency($currencyCode),
-            $this->location->asn($ip),
-            $this->location->isp($ip),
+            $this->withIsp() ? $this->location->asn($ip) : null,
+            $this->withIsp() ? $this->location->isp($ip) : null,
         ]]);
     }
 }
