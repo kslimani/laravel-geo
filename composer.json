@@ -11,6 +11,7 @@
         "moneyphp/money": "^3.3"
     },
     "require-dev": {
+        "ext-intl": "*",
         "friendsofphp/php-cs-fixer": "^2.16",
         "nyholm/psr7": "^1.2",
         "orchestra/testbench": "^4.0",
