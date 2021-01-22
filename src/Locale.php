@@ -445,6 +445,21 @@ class Locale
                 $currencies['BYN'] = $currencies['BYR'];
             }
 
+            // Add new Mauritanian Ouguiya if not available
+            if (! isset($currencies['MRU']) && isset($currencies['MRO'])) {
+                $currencies['MRU'] = $currencies['MRO'];
+            }
+
+            // Add new São Tomé & Príncipe Dobra if not available
+            if (! isset($currencies['STN']) && isset($currencies['STD'])) {
+                $currencies['STN'] = $currencies['STD'];
+            }
+
+            // Add new Bolívar Soberano if not available
+            if (! isset($currencies['VES']) && isset($currencies['VEF'])) {
+                $currencies['VES'] = $currencies['VEF'];
+            }
+
             // Currencies are filtered to match countries
             foreach ($countries as $code => $country) {
                 if (! $countryLocale = $this->countryLocale($code)) {

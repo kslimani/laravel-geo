@@ -83,4 +83,18 @@ class LocaleTest extends TestCase
         $this->assertSame('EUR', $this->locale->countryCurrency('FR'));
         $this->assertSame('USD', $this->locale->countryCurrency('US'));
     }
+
+    public function test_it_resolve_all_countries_currencies_except_antartica()
+    {
+        $countries = $this->locale->countries();
+
+        foreach ($countries as $countryCode => $country) {
+            if ($countryCode === 'AQ') {
+                continue;
+            }
+
+            $currency = $this->locale->countryCurrency($countryCode);
+            $this->assertNotNull($currency, sprintf('"%s" currency is null', $countryCode));
+        }
+    }
 }
