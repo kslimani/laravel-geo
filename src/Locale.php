@@ -11,7 +11,6 @@ class Locale
      * @var array
      */
     const COUNTRY_LOCALE = [
-        // AQ : Antartica has no official language
         'AC' => 'en_AC',
         'AD' => 'ca_AD',
         'AE' => 'ar_AE',
@@ -22,7 +21,7 @@ class Locale
         'AM' => 'hy_AM',
         'AN' => 'pap_AN',
         'AO' => 'pt_AO',
-        'AQ' => 'und_AQ',
+        'AQ' => 'und_AQ', // Antartica has no official language
         'AR' => 'es_AR',
         'AS' => 'sm_AS',
         'AT' => 'de_AT',
@@ -47,7 +46,7 @@ class Locale
         'BR' => 'pt_BR',
         'BS' => 'en_BS',
         'BT' => 'dz_BT',
-        'BV' => 'und_BV',
+        'BV' => 'und_BV', // Bouvet Island is uninhabited
         'BW' => 'en_BW',
         'BY' => 'be_BY',
         'BZ' => 'en_BZ',
@@ -105,13 +104,13 @@ class Locale
         'GP' => 'fr_GP',
         'GQ' => 'fan_GQ',
         'GR' => 'el_GR',
-        'GS' => 'und_GS',
+        'GS' => 'en_GS',
         'GT' => 'es_GT',
         'GU' => 'en_GU',
         'GW' => 'pt_GW',
         'GY' => 'en_GY',
         'HK' => 'zh_Hant_HK',
-        'HM' => 'und_HM',
+        'HM' => 'und_HM', // Heard Island and McDonald Islands has no permanent human habitation
         'HN' => 'es_HN',
         'HR' => 'hr_HR',
         'HT' => 'ht_HT',
@@ -122,7 +121,7 @@ class Locale
         'IL' => 'he_IL',
         'IM' => 'en_IM',
         'IN' => 'hi_IN',
-        'IO' => 'und_IO',
+        'IO' => 'en_IO',
         'IQ' => 'ar_IQ',
         'IR' => 'fa_IR',
         'IS' => 'is_IS',
@@ -233,7 +232,7 @@ class Locale
         'TA' => 'en_TA',
         'TC' => 'en_TC',
         'TD' => 'fr_TD',
-        'TF' => 'und_TF',
+        'TF' => 'fr_TF',
         'TG' => 'fr_TG',
         'TH' => 'th_TH',
         'TJ' => 'tg_Cyrl_TJ',
