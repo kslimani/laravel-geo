@@ -1,0 +1,12 @@
+#
+# Publish service provider configuration with testbench command :
+#
+# vendor/bin/testbench vendor:publish --provider="Sk\Geo\GeoServiceProvider" --tag="config"
+#
+env:
+  - GEOIP_COUNTRY="tests/maxmind/GeoLite2-Country.mmdb"
+  - GEOIP_CITY="tests/maxmind/GeoLite2-City.mmdb"
+  - GEOIP_ISP="tests/maxmind/GeoLite2-ASN.mmdb"
+
+providers:
+  - Sk\Geo\GeoServiceProvider
